@@ -1,3 +1,5 @@
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 export default async function Page({
   params,
 }: {
@@ -9,7 +11,11 @@ export default async function Page({
   return (
     <div className="w-full flex justify-center">
       <div className="w-3/5">
-        <Post/>
+        <Post />
+        <div className="flex items-center space-x-2 text-sm border border-neutral-700 rounded p-2 w-fit">
+          <VisibilityIcon fontSize="small" />
+          Views
+        </div>
       </div>
     </div>
   );
