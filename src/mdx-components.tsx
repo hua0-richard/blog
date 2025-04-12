@@ -128,7 +128,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       if (props.src && props.src.startsWith('data:image/svg+xml')) {
         return (
           <div 
-            className="my-6 overflow-auto"
+            className="mermaid my-6 overflow-auto hidden dark:block"
             dangerouslySetInnerHTML={{ __html: decodeURIComponent(props.src.replace('data:image/svg+xml,', '')) }}
           />
         );
