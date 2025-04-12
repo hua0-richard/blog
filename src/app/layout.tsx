@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { GeistSans, GeistMono } from "geist/font";
 import "./globals.css";
 import Link from "next/link";
+// Import KaTeX CSS
+import 'katex/dist/katex.min.css';
 
 export const metadata: Metadata = {
   title: "Blog",

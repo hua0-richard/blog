@@ -1,11 +1,52 @@
 import type { MDXComponents } from 'mdx/types'
 import Image, { ImageProps } from 'next/image'
 import LinkPreview from './components/LinkPreview'
+import { ReactNode } from 'react'
 
 // This file allows you to provide custom React components
 // to be used in MDX files. You can import and use any
 // React component you want, including inline styles,
 // components from other libraries, and more.
+
+// Custom component for callouts (used by remark-callout)
+const Callout = ({ children, type = 'note' }: { children: ReactNode; type?: string }) => {
+  const typeToStyles: Record<string, { bgColor: string; borderColor: string; titleColor: string }> = {
+    note: { 
+      bgColor: 'bg-blue-50 dark:bg-blue-950/50', 
+      borderColor: 'border-blue-200 dark:border-blue-800', 
+      titleColor: 'text-blue-800 dark:text-blue-300' 
+    },
+    tip: { 
+      bgColor: 'bg-green-50 dark:bg-green-950/50', 
+      borderColor: 'border-green-200 dark:border-green-800', 
+      titleColor: 'text-green-800 dark:text-green-300' 
+    },
+    warning: { 
+      bgColor: 'bg-yellow-50 dark:bg-yellow-950/50', 
+      borderColor: 'border-yellow-200 dark:border-yellow-800', 
+      titleColor: 'text-yellow-800 dark:text-yellow-300' 
+    },
+    danger: { 
+      bgColor: 'bg-red-50 dark:bg-red-950/50', 
+      borderColor: 'border-red-200 dark:border-red-800', 
+      titleColor: 'text-red-800 dark:text-red-300' 
+    },
+    info: { 
+      bgColor: 'bg-purple-50 dark:bg-purple-950/50', 
+      borderColor: 'border-purple-200 dark:border-purple-800', 
+      titleColor: 'text-purple-800 dark:text-purple-300' 
+    },
+  };
+
+  const styles = typeToStyles[type.toLowerCase()] || typeToStyles.note;
+
+  return (
+    <div className={`${styles.bgColor} ${styles.borderColor} border-l-4 rounded-md p-4 my-6`}>
+      <div className={`font-medium mb-2 capitalize ${styles.titleColor}`}>{type}</div>
+      <div className="text-gray-700 dark:text-gray-300">{children}</div>
+    </div>
+  );
+};
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -43,23 +84,50 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     pre: ({ children }) => (
       <pre className="bg-gray-100 dark:bg-gray-900 rounded-lg p-4 overflow-x-auto mb-6 text-sm font-mono">{children}</pre>
     ),
-    img: (props) => (
-      <Image
-        sizes="100vw"
-        style={{ width: '100%', height: 'auto' }}
-        className="rounded-lg my-6"
-        {...(props as ImageProps)}
-      />
-    ),
-    a: ({ href, children, ...props }) => (
-      <LinkPreview 
-        href={href || '#'} 
-        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors font-medium hover:underline"
-        {...props}
-      >
-        {children}
-      </LinkPreview>
-    ),
+    img: (props) => {
+      // Special handling for Mermaid SVG images
+      if (props.src && props.src.startsWith('data:image/svg+xml')) {
+        return (
+          <div 
+            className="my-6 overflow-auto"
+            dangerouslySetInnerHTML={{ __html: decodeURIComponent(props.src.replace('data:image/svg+xml,', '')) }}
+          />
+        );
+      }
+      
+      return (
+        <Image
+          sizes="100vw"
+          style={{ width: '100%', height: 'auto' }}
+          className="rounded-lg my-6"
+          {...(props as ImageProps)}
+        />
+      );
+    },
+    a: ({ href, children, className, ...props }) => {
+      // Special styling for wiki links
+      if (className === 'wiki-link') {
+        return (
+          <a
+            href={href || '#'}
+            className="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 font-medium hover:underline"
+            {...props}
+          >
+            {children}
+          </a>
+        );
+      }
+      
+      return (
+        <LinkPreview 
+          href={href || '#'} 
+          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors font-medium hover:underline"
+          {...props}
+        >
+          {children}
+        </LinkPreview>
+      );
+    },
     hr: () => (
       <hr className="my-8 border-t border-gray-200 dark:border-gray-800" />
     ),
@@ -74,6 +142,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     td: ({ children }) => (
       <td className="border-b border-gray-200 dark:border-gray-800 px-4 py-2 text-gray-700 dark:text-gray-300">{children}</td>
     ),
+    // Add support for callout component
+    Callout,
     ...components,
   }
 }
