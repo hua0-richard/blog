@@ -45,20 +45,27 @@ export default function LinkPreview({ href, children, className = '' }: LinkPrev
       // Only fetch if it's an internal link
       if (href.startsWith('/')) {
         fetch(href)
-          .then(response => response.text())
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Page not found');
+            }
+            return response.text();
+          })
           .then(html => {
             // Extract content from HTML
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
             const mainContent = doc.querySelector('main')?.innerHTML || '';
-            setPreviewContent(mainContent);
+            setPreviewContent(mainContent || 'No content available');
             setLoading(false);
           })
           .catch(error => {
             console.error('Error fetching preview:', error);
+            setPreviewContent('Preview not available');
             setLoading(false);
           });
       } else {
+        setPreviewContent('External link preview not available');
         setLoading(false);
       }
     }
@@ -93,7 +100,7 @@ export default function LinkPreview({ href, children, className = '' }: LinkPrev
       <Link 
         ref={linkRef}
         href={href}
-        className={className}
+        className={`text-blue-500 hover:text-blue-700 transition-colors ${className}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -120,7 +127,7 @@ export default function LinkPreview({ href, children, className = '' }: LinkPrev
               </div>
             ) : (
               previewContent ? (
-                <div className="overflow-y-auto max-h-96	" dangerouslySetInnerHTML={{ __html: previewContent }} />
+                <div className="overflow-y-auto max-h-96" dangerouslySetInnerHTML={{ __html: previewContent }} />
               ) : (
                 <div className="text-sm opacity-70">Preview not available</div>
               )
