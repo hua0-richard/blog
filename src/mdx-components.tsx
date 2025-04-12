@@ -2,6 +2,7 @@ import type { MDXComponents } from 'mdx/types'
 import Image, { ImageProps } from 'next/image'
 import LinkPreview from './components/LinkPreview'
 import { ReactNode } from 'react'
+import { Highlight, themes } from 'prism-react-renderer'
 
 // This file allows you to provide custom React components
 // to be used in MDX files. You can import and use any
@@ -48,6 +49,33 @@ const Callout = ({ children, type = 'note' }: { children: ReactNode; type?: stri
   );
 };
 
+// Code block with syntax highlighting
+const CodeBlock = ({ children, className }: { children: string; className?: string }) => {
+  // Extract language from className (format: language-*)
+  const match = /language-(\w+)/.exec(className || '');
+  const language = match ? match[1] : '';
+
+  return (
+    <Highlight 
+      theme={themes.nightOwl} 
+      code={children.trim()} 
+      language={language || 'text'}
+    >
+      {({ style, tokens, getLineProps, getTokenProps }) => (
+        <pre className="text-sm rounded-lg p-4 overflow-x-auto mb-6" style={{ ...style }}>
+          {tokens.map((line, i) => (
+            <div key={i} {...getLineProps({ line, key: i })}>
+              {line.map((token, key) => (
+                <span key={key} {...getTokenProps({ token, key })} />
+              ))}
+            </div>
+          ))}
+        </pre>
+      )}
+    </Highlight>
+  );
+};
+
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     // Allows customizing built-in components, e.g. to add styling.
@@ -78,12 +106,23 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     blockquote: ({ children }) => (
       <blockquote className="border-l-4 border-gray-200 dark:border-gray-800 pl-4 italic my-6 text-gray-700 dark:text-gray-300">{children}</blockquote>
     ),
-    code: ({ children }) => (
-      <code className="bg-gray-100 dark:bg-gray-800 rounded px-1.5 py-0.5 text-sm font-mono text-gray-800 dark:text-gray-200">{children}</code>
-    ),
-    pre: ({ children }) => (
-      <pre className="bg-gray-100 dark:bg-gray-900 rounded-lg p-4 overflow-x-auto mb-6 text-sm font-mono">{children}</pre>
-    ),
+    code: ({ children, className }) => {
+      // If it has a language class, it's a code block
+      if (className?.includes('language-')) {
+        return <CodeBlock className={className}>{children as string}</CodeBlock>;
+      }
+      
+      // Otherwise it's an inline code element
+      return (
+        <code className="bg-gray-100 dark:bg-gray-800 rounded px-1.5 py-0.5 text-sm font-mono text-gray-800 dark:text-gray-200">
+          {children}
+        </code>
+      );
+    },
+    pre: ({ children }) => {
+      // For pre elements, just pass through to our custom handling in the code component
+      return <>{children}</>;
+    },
     img: (props) => {
       // Special handling for Mermaid SVG images
       if (props.src && props.src.startsWith('data:image/svg+xml')) {
@@ -143,6 +182,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <td className="border-b border-gray-200 dark:border-gray-800 px-4 py-2 text-gray-700 dark:text-gray-300">{children}</td>
     ),
     // Add support for callout component
+    Callout,
     ...components,
   }
 }
