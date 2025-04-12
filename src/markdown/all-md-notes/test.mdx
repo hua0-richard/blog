@@ -9,21 +9,8 @@ You can use wiki-style links like this: [[About]] which will link to the About p
 You can also use aliases: [[About|About Me]]
 
 ## Callouts
-
-> [!NOTE]
-> This is a note callout, similar to Obsidian's callouts.
-
-> [!TIP]
-> Here's a helpful tip for you!
-
-> [!WARNING]
-> Be careful with this feature.
-
-> [!DANGER]
-> This could be dangerous!
-
-> [!INFO]
-> Some useful information for you.
+> [!info] Information
+> This is an example of an info callout. You can add any content here.
 
 ## Math Equations
 
@@ -61,13 +48,6 @@ graph TD
 
 ### Tables
 
-| Feature | Support | Notes |
-|---------|---------|-------|
-| Wiki Links | ✅ | Uses remark-wiki-link |
-| Callouts | ✅ | Uses remark-callout |
-| Math | ✅ | Uses remark-math and rehype-katex |
-| Mermaid | ✅ | Uses rehype-mermaid |
-| GFM | ✅ | Uses remark-gfm |
 
 ### Code Blocks with Syntax Highlighting
 
@@ -90,11 +70,3 @@ def fibonacci(n):
 > Regular blockquotes work too!
 > 
 > They can span multiple lines.
-
-export default ({ children }) => (
-  <div className="w-3/5 mx-auto py-12">
-    <article className="prose prose-lg dark:prose-invert">
-      {children}
-    </article>
-  </div>
-); 

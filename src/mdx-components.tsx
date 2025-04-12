@@ -143,7 +143,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <td className="border-b border-gray-200 dark:border-gray-800 px-4 py-2 text-gray-700 dark:text-gray-300">{children}</td>
     ),
     // Add support for callout component
-    Callout,
     ...components,
   }
 }
