@@ -27,7 +27,7 @@ const withMDX = createMDX({
       [remarkWikiLink, {
         aliasDivider: '|',
         pageResolver: (name) => [name.replace(/ /g, '-').toLowerCase()],
-        hrefTemplate: (permalink) => `/${permalink}`,
+        hrefTemplate: (permalink) => `/all-md-notes/${permalink}`,
         wikiLinkClassName: 'wiki-link',
       }]
     ],

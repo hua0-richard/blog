@@ -3,7 +3,7 @@ import path from "path";
 import Link from "next/link";
 
 async function getMDXFiles() {
-  const mdxDirectory = path.join(process.cwd(), "src/markdown/leetcode");
+  const mdxDirectory = path.join(process.cwd(), "src/markdown/all-md-notes");
   const files = await fs.readdir(mdxDirectory);
   return files.filter((file) => file.endsWith(".mdx"));
 }
@@ -40,7 +40,7 @@ export default async function LeetCode() {
               return (
                 <tr key={file} className={`${index % 2 === 0 ? 'bg-black' : 'bg-neutral-900'}`}>
                     <td className="py-2 px-2">
-                      <Link href={`/leetcode/${slug}`} className="text-white hover:text-blue-400 transition-colors duration-200 block w-full">{slug}</Link>
+                      <Link href={`/all-md-notes/${slug}`} className="text-white hover:text-blue-400 transition-colors duration-200 block w-full">{slug}</Link>
                     </td>
                     <td className="py-2 px-2">Easy</td>
                     <td className="py-2 px-2">Array</td>

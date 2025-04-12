@@ -1,12 +1,12 @@
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-export default async function Page({
+export default async function MdNotesPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { default: Post } = await import(`@/markdown/leetcode/${slug}.mdx`);
+  const { default: Post } = await import(`@/markdown/all-md-notes/${slug}.mdx`);
 
   return (
     <div className="w-full flex justify-center">
