@@ -24,6 +24,27 @@ def fibonacci(n):
         a, b = b, a + b
 ```
 
+```mermaid
+graph TD
+    A --> B
+    B --> C
+    C --> D
+    D --> B
+```
+
+```mermaid
+flowchart LR
+    A((A)) --> B((B))
+    B --> C((  Node B  ))
+    C --> D((  Node A  ))
+    D --> B  
+
+    classDef highlight fill:#ff6b81,stroke:#ff4d6d,stroke-width:2px,color:#fff;
+    class D highlight;
+ 
+```
+
+
 
 
 

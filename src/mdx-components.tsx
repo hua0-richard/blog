@@ -64,9 +64,9 @@ const CodeBlock = ({ children, className }: { children: string; className?: stri
       {({ style, tokens, getLineProps, getTokenProps }) => (
         <pre className="text-sm rounded-lg p-4 overflow-x-auto mb-6" style={{ ...style }}>
           {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({ line, key: i })}>
+            <div key={i} {...getLineProps({ line })}>
               {line.map((token, key) => (
-                <span key={key} {...getTokenProps({ token, key })} />
+                <span key={key} {...getTokenProps({ token })} />
               ))}
             </div>
           ))}
@@ -128,7 +128,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       if (props.src && props.src.startsWith('data:image/svg+xml')) {
         return (
           <div 
-            className="mermaid my-6 overflow-auto hidden dark:block"
+            className="mermaid my-6 overflow-auto"
             dangerouslySetInnerHTML={{ __html: decodeURIComponent(props.src.replace('data:image/svg+xml,', '')) }}
           />
         );

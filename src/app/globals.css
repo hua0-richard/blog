@@ -51,49 +51,18 @@ body {
 }
 
 /* Mermaid Diagram Styles */
-.dark .mermaid {
-  background-color: #0d1117;
+.mermaid {
   border-radius: 0.5rem;
   padding: 1rem;
   max-width: 100%;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  background-color: var(--preview-bg);
+  border: 1px solid var(--preview-border);
 }
 
-.dark .mermaid svg {
+.mermaid svg {
   max-width: 100%;
+  height: auto;
 }
 
-/* Fine-tune Mermaid dark mode appearance */
-.dark .mermaid .label {
-  font-family: var(--font-mono, monospace);
-  color: #e6edf3 !important;
-}
-
-.dark .mermaid .node rect,
-.dark .mermaid .node circle,
-.dark .mermaid .node ellipse,
-.dark .mermaid .node polygon,
-.dark .mermaid .node path {
-  fill: #2d333b !important;
-  stroke: #444c56 !important;
-  stroke-width: 1px !important;
-}
-
-.dark .mermaid .flowchart-link {
-  stroke: #444c56 !important;
-}
-
-.dark .mermaid .edgeLabel {
-  background-color: #2d333b !important;
-  color: #e6edf3 !important;
-}
-
-.dark .mermaid .cluster rect {
-  fill: #1a1f24 !important;
-  stroke: #444c56 !important;
-}
-
-.dark .mermaid .label text,
-.dark .mermaid span {
-  fill: #e6edf3 !important;
-  color: #e6edf3 !important;
-}
