@@ -65,13 +65,17 @@ export default function LinkPreview({ href, children, className = '' }: LinkPrev
             setLoading(false);
           });
       } else {
-        setPreviewContent('External link preview not available');
+        // Don't show any preview for external links
+        setShowPreview(false);
         setLoading(false);
       }
     }
   }, [href, showPreview, previewContent, loading]);
 
   const handleMouseEnter = () => {
+    // Skip preview for external links
+    if (!href.startsWith('/')) return;
+    
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
