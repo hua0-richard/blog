@@ -5,6 +5,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeMermaid from "rehype-mermaid";
 import remarkCallout from "remark-callout";
+import remarkFrontmatter from "remark-frontmatter";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,6 +22,7 @@ const nextConfig = {
 const withMDX = createMDX({
   options: {
     remarkPlugins: [
+      remarkFrontmatter,
       remarkGfm,
       remarkMath,
       remarkCallout,

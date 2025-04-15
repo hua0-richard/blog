@@ -183,6 +183,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     // Add support for callout component
     Callout,
+    // Add support for frontmatter
+    frontmatter: ({ children }) => null, // This will ignore the frontmatter in the rendered output
     ...components,
   }
 }
