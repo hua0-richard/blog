@@ -131,7 +131,7 @@ export default function LinkPreview({ href, children, className = '' }: LinkPrev
               </div>
             ) : (
               previewContent ? (
-                <div className="overflow-y-auto max-h-96" dangerouslySetInnerHTML={{ __html: previewContent }} />
+                <div className="overflow-y-auto max-h-96" dangerouslySetInnerHTML={{ __html: previewContent }}></div>
               ) : (
                 <div className="text-sm opacity-70">Preview not available</div>
               )
