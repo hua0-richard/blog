@@ -124,7 +124,7 @@ export default function LinkPreview({ href, children, className = '' }: LinkPrev
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="p-4 h-full overflow-y-auto text-sm">
+          <div className="p-8 h-full overflow-y-auto text-sm">
             {loading ? (
               <div className="flex justify-center items-center h-20">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-600 dark:border-gray-300"></div>
